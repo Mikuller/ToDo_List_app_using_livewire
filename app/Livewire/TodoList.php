@@ -24,9 +24,12 @@ class TodoList extends Component
 
         session()->flash('success', 'created');
     }
+    public function delete(Todo $todo){
+        $todo->delete();
+    }
     public function render()
     {
-        $toDoList = Todo::latest()->paginate(3);
+        $toDoList = Todo::latest()->where('name','like',"%{$this->search}%")->paginate(3);
         return view('livewire.todo-list', compact('toDoList'));
     }
 }
